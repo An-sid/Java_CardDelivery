@@ -16,7 +16,7 @@ public class CardDeliveryTest {
 
     @Test
     void whenFormIsCorrectlyFilledIn() {
-        open("http://localhost:9999");
+        //open("http://localhost:9999");
         $$("input").get(0).setValue("Казань");
         var currentDate = $$("input").get(1).getValue();
         $$("input").get(2).setValue("Алексей");
