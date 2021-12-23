@@ -1,0 +1,28 @@
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.2.3
+jobs:
+  build:
+    environment:
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=1"
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore_cache:
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
+      - run:
+          name: Run server
+          command: java -jar ./artifacts/app-card-delivery.jar
+          background: true
+      - browser-tools/install-chrome:
+          chrome-version: 96.0.4664.110
+      - run:
+          name: Run tests
+          command: ./gradlew test
+workflow:
+  jobs:
+    - build
