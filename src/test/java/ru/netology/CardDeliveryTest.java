@@ -21,14 +21,16 @@ public class CardDeliveryTest {
 
     @Test
     void whenFormIsCorrectlyFilledIn() {
-        var currentDate = $("[data-test-id=date] input").getValue();
+        String meetDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         $("[data-test-id=city] input").setValue("Казань");
+        $("[data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
+        $("[data-test-id=date] input").setValue(meetDate);
         $("[data-test-id=name] input").setValue("Алексей");
         $("[data-test-id=phone] input").setValue("+79993332211");
         $(".checkbox").click();
         $("[class*=grid-col] button").click();
         $("[data-test-id=notification]").shouldBe(visible, Duration.ofSeconds(12)).shouldHave(
-                exactText("Успешно! \n Встреча успешно забронирована на " + currentDate));
+                exactText("Успешно! \n Встреча успешно забронирована на " + meetDate));
     }
 
     @Test
