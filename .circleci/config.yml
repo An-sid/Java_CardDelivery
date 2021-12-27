@@ -22,7 +22,7 @@ jobs:
           chrome-version: 96.0.4664.110
       - run:
           name: Run tests
-          command: ./gradlew test
+          command: ./gradlew test --info
 workflow:
   jobs:
     - build
